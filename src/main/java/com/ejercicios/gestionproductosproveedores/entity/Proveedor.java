@@ -1,11 +1,9 @@
 package com.ejercicios.gestionproductosproveedores.entity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "proveedores")
@@ -18,6 +16,10 @@ public class Proveedor {
     @NotBlank(message = "El nombre del proveedor es obligatorio")
     @Size(max = 100, message = "El nombre del proveedor no puede superar los 100 caracteres")
     private String nombreProveedor;
+
+    @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Producto> productos;
 
     // Getters y setters
     public Long getId() {

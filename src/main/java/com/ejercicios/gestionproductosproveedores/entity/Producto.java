@@ -28,7 +28,6 @@ public class Producto {
     @JsonManagedReference
     private List<OrdenProducto> ordenesProductos;
 
-    // Getters y setters
     public Long getId() {
         return id;
     }
@@ -37,11 +36,11 @@ public class Producto {
         this.id = id;
     }
 
-    public String getNombreProducto() {
+    public @NotBlank(message = "El nombre del producto es obligatorio") @Size(max = 100, message = "El nombre del producto no puede superar los 100 caracteres") String getNombreProducto() {
         return nombreProducto;
     }
 
-    public void setNombreProducto(String nombreProducto) {
+    public void setNombreProducto(@NotBlank(message = "El nombre del producto es obligatorio") @Size(max = 100, message = "El nombre del producto no puede superar los 100 caracteres") String nombreProducto) {
         this.nombreProducto = nombreProducto;
     }
 

@@ -17,7 +17,6 @@ public class Orden {
     @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL)
     private List<OrdenProducto> orderItems;
 
-    // Getters y setters
     public Long getId() {
         return id;
     }

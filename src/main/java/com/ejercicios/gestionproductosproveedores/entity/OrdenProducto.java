@@ -22,7 +22,6 @@ public class OrdenProducto {
 
     private Integer cantidad;
 
-    // Getters y setters
     public Long getId() {
         return id;
     }

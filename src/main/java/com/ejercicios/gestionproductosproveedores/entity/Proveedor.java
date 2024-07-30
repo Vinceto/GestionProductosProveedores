@@ -21,7 +21,6 @@ public class Proveedor {
     @JsonManagedReference
     private List<Producto> productos;
 
-    // Getters y setters
     public Long getId() {
         return id;
     }
@@ -30,11 +29,19 @@ public class Proveedor {
         this.id = id;
     }
 
-    public String getNombreProveedor() {
+    public @NotBlank(message = "El nombre del proveedor es obligatorio") @Size(max = 100, message = "El nombre del proveedor no puede superar los 100 caracteres") String getNombreProveedor() {
         return nombreProveedor;
     }
 
-    public void setNombreProveedor(String nombreProveedor) {
+    public void setNombreProveedor(@NotBlank(message = "El nombre del proveedor es obligatorio") @Size(max = 100, message = "El nombre del proveedor no puede superar los 100 caracteres") String nombreProveedor) {
         this.nombreProveedor = nombreProveedor;
+    }
+
+    public List<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
     }
 }

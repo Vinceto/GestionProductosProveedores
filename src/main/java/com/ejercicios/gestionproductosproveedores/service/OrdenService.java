@@ -1,5 +1,7 @@
 package com.ejercicios.gestionproductosproveedores.service;
 import com.ejercicios.gestionproductosproveedores.entity.Orden;
+import com.ejercicios.gestionproductosproveedores.entity.Producto;
+import com.ejercicios.gestionproductosproveedores.exception.ResourceNotFoundException;
 import com.ejercicios.gestionproductosproveedores.repository.OrdenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +19,12 @@ public class OrdenService {
         return ordenRepository.findAll();
     }
 
-    public Optional<Orden> obtenerOrdenPorId(Long id) {
-        return ordenRepository.findById(id);
+    public Orden obtenerOrdenPorId(Long id) throws ResourceNotFoundException {
+        Optional<Orden> ordenOptional = ordenRepository.findById(id);
+        if (!ordenOptional.isPresent()) {
+            throw new ResourceNotFoundException("Producto no encontrado con ID: " + id);
+        }
+        return ordenOptional.get();
     }
 
     public Orden guardarOrden(Orden orden) {

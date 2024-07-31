@@ -1,10 +1,18 @@
 package com.ejercicios.gestionproductosproveedores.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.util.List;
+
 
 @Entity
 @Table(name = "ordenes")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Orden {
 
     @Id
@@ -16,37 +24,6 @@ public class Orden {
     private String fecha;
 
     @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<OrdenProducto> ordenesProductos;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(String cliente) {
-        this.cliente = cliente;
-    }
-
-    public String getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
-    }
-
-    public List<OrdenProducto> getOrdenesProductos() {
-        return ordenesProductos;
-    }
-
-    public void setOrdenesProductos(List<OrdenProducto> ordenesProductos) {
-        this.ordenesProductos = ordenesProductos;
-    }
 }

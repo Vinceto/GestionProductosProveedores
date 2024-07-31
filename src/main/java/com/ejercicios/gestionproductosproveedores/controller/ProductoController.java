@@ -33,8 +33,16 @@ public class ProductoController {
     }
 
     @PostMapping("/guardar")
-    public ResponseEntity<Map<String, Object>> guardarProducto(@RequestBody Producto producto) throws DuplicateResourceException {
+    public ResponseEntity<Map<String, Object>> guardarProducto(@RequestBody Map<String, Object> request) {
         try {
+            String nombreProducto = (String) request.get("nombreProducto");
+            Long proveedorId = Long.valueOf(request.get("proveedorId").toString());
+            Proveedor proveedor = proveedorService.obtenerProveedorPorId(proveedorId);
+
+            Producto producto = new Producto();
+            producto.setNombreProducto(nombreProducto);
+            producto.setProveedor(proveedor);
+
             Producto nuevoProducto = productoService.guardarProducto(producto);
             return ResponseEntity.ok(Map.of(
                     "mensaje", "Producto guardado con éxito",
@@ -42,9 +50,9 @@ public class ProductoController {
         } catch (DuplicateResourceException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(Collections.singletonMap("mensaje", "Ya existe un producto con ese nombre"));
         } catch (ResourceNotFoundException e) {
-            return ResponseEntity.notFound().build(); // Simpler approach for not found supplier
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("mensaje", "Proveedor no encontrado"));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(Collections.singletonMap("mensaje", "Error al guardar el producto"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("mensaje", "Error al guardar el producto"));
         }
     }
 

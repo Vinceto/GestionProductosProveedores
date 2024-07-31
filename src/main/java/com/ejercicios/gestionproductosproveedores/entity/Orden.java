@@ -24,6 +24,6 @@ public class Orden {
     private String fecha;
 
     @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference("orden-ordenesproductos")
     private List<OrdenProducto> ordenesProductos;
 }

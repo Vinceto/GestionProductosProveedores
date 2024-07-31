@@ -1,5 +1,4 @@
 package com.ejercicios.gestionproductosproveedores.entity;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -28,10 +27,10 @@ public class Producto {
 
     @ManyToOne
     @JoinColumn(name = "proveedor_id", nullable = false)
-    @JsonBackReference("productos")
+    @JsonBackReference("proveedor-productos")
     private Proveedor proveedor;
 
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference("producto-ordenProductos")
     private List<OrdenProducto> ordenesProductos;
 }

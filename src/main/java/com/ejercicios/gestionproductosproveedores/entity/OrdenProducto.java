@@ -18,12 +18,12 @@ public class OrdenProducto {
 
     @ManyToOne
     @JoinColumn(name = "orden_id")
-    @JsonBackReference("ordenProductos")
+    @JsonBackReference("orden-ordenesproductos")
     private Orden orden;
 
     @ManyToOne
     @JoinColumn(name = "producto_id")
-    @JsonBackReference("productoOrdenes")
+    @JsonBackReference("producto-ordenProductos")
     private Producto producto;
 
     private int cantidad;

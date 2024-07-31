@@ -19,39 +19,26 @@ public class ProveedorService {
     @Autowired
     private ProveedorRepository proveedorRepository;
 
-    public List<Map<String, Object>> obtenerTodosLosProveedores() {
-        if (proveedorRepository.findAll().isEmpty()) {
-            throw new ResourceNotFoundException("No existen proveedores");
-        }
-        return proveedorRepository.findAll().stream().map(proveedor -> {
-            Map<String, Object> result = new HashMap<>();
-            result.put("id", proveedor.getId());
-            result.put("nombreProveedor", proveedor.getNombreProveedor());
-            return result;
-        }).collect(Collectors.toList());
+    public List<Proveedor> obtenerTodosLosProveedores() {
+        return proveedorRepository.findAll();
     }
 
-    public List<Map<String, Object>> obtenerProveedorPorId(Long id) {
-        if (!proveedorRepository.findById(id).isPresent()) {
-            throw new ResourceNotFoundException("No existe proveedor con id {}"+id);
+    public Proveedor obtenerProveedorPorId(Long id) throws ResourceNotFoundException {
+        Optional<Proveedor> proveedorOptional = proveedorRepository.findById(id);
+        if (!proveedorOptional.isPresent()) {
+            throw new ResourceNotFoundException("No existe proveedor con id: " + id);
         }
-        return proveedorRepository.findById(id).stream().map(proveedor -> {
-            Map<String, Object> result = new HashMap<>();
-            result.put("id", proveedor.getId());
-            result.put("nombreProveedor", proveedor.getNombreProveedor());
-            return result;
-        }).collect(Collectors.toList());
+        return proveedorOptional.get();
     }
 
-    public Proveedor guardarProveedor(Proveedor proveedor) {
-        Optional<Proveedor> proveedorExistente = proveedorRepository.findByNombreProveedor(proveedor.getNombreProveedor());
-        if (proveedorExistente.isPresent()) {
+    public Proveedor guardarProveedor(Proveedor proveedor) throws DuplicateResourceException {
+        if (proveedorRepository.findByNombreProveedor(proveedor.getNombreProveedor()).isPresent()) {
             throw new DuplicateResourceException("El proveedor ya existe.");
         }
         return proveedorRepository.save(proveedor);
     }
 
-    public void eliminarProveedor(Long id) {
+    public void eliminarProveedor(Long id) throws ResourceNotFoundException {
         if (!proveedorRepository.existsById(id)) {
             throw new ResourceNotFoundException("Proveedor no encontrado con ID: " + id);
         }

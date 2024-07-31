@@ -28,7 +28,7 @@ public class Producto {
 
     @ManyToOne
     @JoinColumn(name = "proveedor_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference("productos")
     private Proveedor proveedor;
 
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)

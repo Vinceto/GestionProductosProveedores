@@ -1,6 +1,6 @@
 package com.ejercicios.gestionproductosproveedores.entity;
+
 import jakarta.persistence.*;
-import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -11,11 +11,12 @@ public class Orden {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate fecha;
     private String cliente;
 
+    private String fecha;
+
     @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL)
-    private List<OrdenProducto> orderItems;
+    private List<OrdenProducto> ordenesProductos;
 
     public Long getId() {
         return id;
@@ -23,14 +24,6 @@ public class Orden {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public LocalDate getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
     }
 
     public String getCliente() {
@@ -41,11 +34,19 @@ public class Orden {
         this.cliente = cliente;
     }
 
-    public List<OrdenProducto> getOrderItems() {
-        return orderItems;
+    public String getFecha() {
+        return fecha;
     }
 
-    public void setOrderItems(List<OrdenProducto> orderItems) {
-        this.orderItems = orderItems;
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public List<OrdenProducto> getOrdenesProductos() {
+        return ordenesProductos;
+    }
+
+    public void setOrdenesProductos(List<OrdenProducto> ordenesProductos) {
+        this.ordenesProductos = ordenesProductos;
     }
 }

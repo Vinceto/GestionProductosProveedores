@@ -36,11 +36,11 @@ public class Producto {
         this.id = id;
     }
 
-    public @NotBlank(message = "El nombre del producto es obligatorio") @Size(max = 100, message = "El nombre del producto no puede superar los 100 caracteres") String getNombreProducto() {
+    public String getNombreProducto() {
         return nombreProducto;
     }
 
-    public void setNombreProducto(@NotBlank(message = "El nombre del producto es obligatorio") @Size(max = 100, message = "El nombre del producto no puede superar los 100 caracteres") String nombreProducto) {
+    public void setNombreProducto(String nombreProducto) {
         this.nombreProducto = nombreProducto;
     }
 

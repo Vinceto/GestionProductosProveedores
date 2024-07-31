@@ -5,9 +5,13 @@ import com.ejercicios.gestionproductosproveedores.exception.ResourceNotFoundExce
 import com.ejercicios.gestionproductosproveedores.repository.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProveedorService {
@@ -15,18 +19,28 @@ public class ProveedorService {
     @Autowired
     private ProveedorRepository proveedorRepository;
 
-    public List<Proveedor> obtenerTodosLosProveedores() {
+    public List<Map<String, Object>> obtenerTodosLosProveedores() {
         if (proveedorRepository.findAll().isEmpty()) {
             throw new ResourceNotFoundException("No existen proveedores");
         }
-        return proveedorRepository.findAll();
+        return proveedorRepository.findAll().stream().map(proveedor -> {
+            Map<String, Object> result = new HashMap<>();
+            result.put("id", proveedor.getId());
+            result.put("nombreProveedor", proveedor.getNombreProveedor());
+            return result;
+        }).collect(Collectors.toList());
     }
 
-    public Optional<Proveedor> obtenerProveedorPorId(Long id) {
+    public List<Map<String, Object>> obtenerProveedorPorId(Long id) {
         if (!proveedorRepository.findById(id).isPresent()) {
             throw new ResourceNotFoundException("No existe proveedor con id {}"+id);
         }
-        return proveedorRepository.findById(id);
+        return proveedorRepository.findById(id).stream().map(proveedor -> {
+            Map<String, Object> result = new HashMap<>();
+            result.put("id", proveedor.getId());
+            result.put("nombreProveedor", proveedor.getNombreProveedor());
+            return result;
+        }).collect(Collectors.toList());
     }
 
     public Proveedor guardarProveedor(Proveedor proveedor) {

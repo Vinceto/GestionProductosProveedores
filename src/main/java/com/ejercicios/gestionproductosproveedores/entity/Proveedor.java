@@ -1,8 +1,10 @@
 package com.ejercicios.gestionproductosproveedores.entity;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,9 +19,12 @@ public class Proveedor {
     @Size(max = 100, message = "El nombre del proveedor no puede superar los 100 caracteres")
     private String nombreProveedor;
 
-    @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<Producto> productos;
+    private List<Producto> productos = new ArrayList<>();
+
+    // Constructor vacío necesario para JPA
+    public Proveedor() {}
 
     public Long getId() {
         return id;
@@ -29,11 +34,11 @@ public class Proveedor {
         this.id = id;
     }
 
-    public @NotBlank(message = "El nombre del proveedor es obligatorio") @Size(max = 100, message = "El nombre del proveedor no puede superar los 100 caracteres") String getNombreProveedor() {
+    public String getNombreProveedor() {
         return nombreProveedor;
     }
 
-    public void setNombreProveedor(@NotBlank(message = "El nombre del proveedor es obligatorio") @Size(max = 100, message = "El nombre del proveedor no puede superar los 100 caracteres") String nombreProveedor) {
+    public void setNombreProveedor(String nombreProveedor) {
         this.nombreProveedor = nombreProveedor;
     }
 

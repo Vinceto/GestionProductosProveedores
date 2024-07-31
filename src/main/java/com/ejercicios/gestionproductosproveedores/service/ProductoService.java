@@ -7,8 +7,11 @@ import com.ejercicios.gestionproductosproveedores.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductoService {
@@ -16,11 +19,17 @@ public class ProductoService {
     @Autowired
     private ProductoRepository productoRepository;
 
-    public List<Producto> obtenerTodosLosProductos() {
+    public List<Map<String, Object>> obtenerTodosLosProductos() {
         if (productoRepository.findAll().isEmpty()) {
             throw new ResourceNotFoundException("No se encontraron productos");
         }
-        return productoRepository.findAll();
+        return productoRepository.findAll().stream().map(producto -> {
+            Map<String, Object> result = new HashMap<>();
+            result.put("id", producto.getId());
+            result.put("nombreProducto", producto.getNombreProducto());
+            result.put("proveedorId", producto.getProveedor().getId());
+            return result;
+        }).collect(Collectors.toList());
     }
 
     public Optional<Producto> obtenerProductoPorId(Long id) {

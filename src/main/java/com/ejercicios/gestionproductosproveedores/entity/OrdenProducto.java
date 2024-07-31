@@ -1,4 +1,5 @@
 package com.ejercicios.gestionproductosproveedores.entity;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
@@ -20,7 +21,7 @@ public class OrdenProducto {
     @JsonBackReference
     private Producto producto;
 
-    private Integer cantidad;
+    private int cantidad;
 
     public Long getId() {
         return id;
@@ -46,11 +47,11 @@ public class OrdenProducto {
         this.producto = producto;
     }
 
-    public Integer getCantidad() {
+    public int getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(Integer cantidad) {
+    public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
     }
 }

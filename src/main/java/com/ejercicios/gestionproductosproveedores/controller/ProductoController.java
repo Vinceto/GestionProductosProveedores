@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 
-@RestController
-@RequestMapping("/api/productos")
+@Controller
+@RequestMapping("/productos")
 public class ProductoController {
 
     @Autowired
@@ -22,49 +24,109 @@ public class ProductoController {
     @Autowired
     private ProveedorService proveedorService;
 
+    // Maneja las solicitudes de Thymeleaf
     @GetMapping
-    public ResponseEntity<List<Producto>> obtenerTodosLosProductos() {
-        return ResponseEntity.ok(productoService.obtenerTodosLosProductos());
+    public String obtenerTodosLosProductos(Model model) {
+        model.addAttribute("productos", productoService.obtenerTodosLosProductos());
+        return "productos"; // Vista Thymeleaf
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Producto> obtenerProductoPorId(@PathVariable Long id) throws ResourceNotFoundException {
-        return ResponseEntity.ok(productoService.obtenerProductoPorId(id));
+    public String obtenerProductoPorId(@PathVariable Long id, Model model) {
+        try {
+            model.addAttribute("producto", productoService.obtenerProductoPorId(id));
+            return "producto"; // Vista Thymeleaf
+        } catch (ResourceNotFoundException e) {
+            model.addAttribute("mensaje", "Producto no encontrado");
+            return "error"; // Vista Thymeleaf para errores
+        }
+    }
+
+    @GetMapping("/nuevo")
+    public String nuevoProducto(Model model) {
+        model.addAttribute("producto", new Producto());
+        model.addAttribute("proveedores", proveedorService.obtenerTodosLosProveedores());
+        return "producto"; // Vista Thymeleaf para crear nuevo producto
     }
 
     @PostMapping("/guardar")
-    public ResponseEntity<Map<String, Object>> guardarProducto(@RequestBody Map<String, Object> request) {
+    public String guardarProducto(@ModelAttribute Producto producto, Model model) {
         try {
-            String nombreProducto = (String) request.get("nombreProducto");
-            Long proveedorId = Long.valueOf(request.get("proveedorId").toString());
-            Proveedor proveedor = proveedorService.obtenerProveedorPorId(proveedorId);
+            Producto nuevoProducto = productoService.guardarProducto(producto);
+            model.addAttribute("mensaje", "Producto guardado con éxito");
+            return "redirect:/productos";
+        } catch (DuplicateResourceException e) {
+            model.addAttribute("mensaje", "Ya existe un producto con ese nombre");
+            return "producto"; // Vista Thymeleaf para error de duplicado
+        } catch (Exception e) {
+            model.addAttribute("mensaje", "Error al guardar el producto");
+            return "producto"; // Vista Thymeleaf para error genérico
+        }
+    }
 
-            Producto producto = new Producto();
-            producto.setNombreProducto(nombreProducto);
-            producto.setProveedor(proveedor);
+    @GetMapping("/{id}/editar")
+    public String editarProducto(@PathVariable Long id, Model model) {
+        try {
+            model.addAttribute("producto", productoService.obtenerProductoPorId(id));
+            model.addAttribute("proveedores", proveedorService.obtenerTodosLosProveedores());
+            return "producto"; // Vista Thymeleaf para editar producto
+        } catch (ResourceNotFoundException e) {
+            model.addAttribute("mensaje", "Producto no encontrado");
+            return "error"; // Vista Thymeleaf para errores
+        }
+    }
 
+    @GetMapping("/{id}/eliminar")
+    public String eliminarProducto(@PathVariable Long id, Model model) {
+        try {
+            productoService.eliminarProducto(id);
+            model.addAttribute("mensaje", "Producto eliminado con éxito");
+        } catch (ResourceNotFoundException e) {
+            model.addAttribute("mensaje", "Producto no encontrado");
+        } catch (Exception e) {
+            model.addAttribute("mensaje", "Error inesperado");
+        }
+        return "redirect:/productos"; // Redirige a la lista de productos
+    }
+
+    // Métodos API
+    @GetMapping("/api")
+    public ResponseEntity<List<Producto>> obtenerTodosLosProductosApi() {
+        return new ResponseEntity<>(productoService.obtenerTodosLosProductos(), HttpStatus.OK);
+    }
+
+    @GetMapping("/api/{id}")
+    public ResponseEntity<Producto> obtenerProductoPorIdApi(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(productoService.obtenerProductoPorId(id));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @PostMapping("/api/guardar")
+    public ResponseEntity<Map<String, Object>> guardarProductoApi(@RequestBody Producto producto) {
+        try {
             Producto nuevoProducto = productoService.guardarProducto(producto);
             return ResponseEntity.ok(Map.of(
                     "mensaje", "Producto guardado con éxito",
                     "id", nuevoProducto.getId().toString()));
         } catch (DuplicateResourceException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(Collections.singletonMap("mensaje", "Ya existe un producto con ese nombre"));
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("mensaje", "Proveedor no encontrado"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("mensaje", "Error al guardar el producto"));
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, String>> eliminarProducto(@PathVariable Long id) throws ResourceNotFoundException {
+    @DeleteMapping("/api/{id}")
+    public ResponseEntity<Map<String, String>> eliminarProductoApi(@PathVariable Long id) {
         try {
             productoService.eliminarProducto(id);
             return ResponseEntity.ok(Map.of("mensaje", "Producto eliminado con éxito"));
         } catch (ResourceNotFoundException e) {
-            return ResponseEntity.notFound().build(); // Simpler approach for not found product
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("mensaje", "Producto no encontrado"));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(Collections.singletonMap("mensaje", "Ocurrió un error inesperado"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("mensaje", "Error inesperado"));
         }
     }
 }

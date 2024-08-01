@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mantenedor de Proveedores</title>
+    <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<h1>Mantenedor de Proveedores</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="proveedor : ${proveedores}">
+        <td th:text="${proveedor.id}"></td>
+        <td th:text="${proveedor.nombreProveedor}"></td>
+        <td>
+            <a th:href="@{/proveedores/{id}(id=${proveedor.id})}">Ver</a>
+            <a th:href="@{/proveedores/{id}/editar(id=${proveedor.id})}">Modificar</a>
+            <a th:href="@{/proveedores/{id}/eliminar(id=${proveedor.id})}" onclick="return confirm('¿Estás seguro de que quieres eliminar este proveedor?')">Eliminar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a href="/proveedores/nuevo">Crear Nuevo Proveedor</a>
+<a href="/ordenes">Volver al Dashboard de Órdenes</a>
+</body>
+</html>

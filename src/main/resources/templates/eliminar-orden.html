@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Eliminar Orden</title>
+    <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<h1>Eliminar Orden</h1>
+<p>¿Estás seguro de que quieres eliminar la orden ID <span th:text="${orden.id}"></span>?</p>
+<form th:action="@{/ordenes/{id}/eliminar(id=${orden.id})}" method="post">
+    <input type="hidden" name="_method" value="delete"/>
+    <button type="submit">Eliminar</button>
+</form>
+<a href="/ordenes">Volver al Dashboard</a>
+</body>
+</html>

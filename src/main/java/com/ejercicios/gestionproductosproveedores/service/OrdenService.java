@@ -3,6 +3,7 @@ import com.ejercicios.gestionproductosproveedores.entity.Orden;
 import com.ejercicios.gestionproductosproveedores.entity.Producto;
 import com.ejercicios.gestionproductosproveedores.exception.ResourceNotFoundException;
 import com.ejercicios.gestionproductosproveedores.repository.OrdenRepository;
+import com.ejercicios.gestionproductosproveedores.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,9 @@ public class OrdenService {
 
     @Autowired
     private OrdenRepository ordenRepository;
+
+    @Autowired
+    private ProductoRepository productoRepository;
 
     public List<Orden> obtenerTodasLasOrdenes() {
         return ordenRepository.findAll();
@@ -33,5 +37,9 @@ public class OrdenService {
 
     public void eliminarOrden(Long id) {
         ordenRepository.deleteById(id);
+    }
+
+    public List<Producto> obtenerTodosLosProductos() {
+        return productoRepository.findAll();
     }
 }

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Modificar Orden</title>
+    <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<h1>Modificar Orden</h1>
+<form th:action="@{/ordenes/{id}(id=${orden.id})}" th:object="${orden}" method="post">
+    <input type="hidden" name="_method" value="put"/>
+    <label for="fecha">Fecha:</label>
+    <input type="date" id="fecha" th:field="*{fecha}" />
+
+    <label for="cliente">Cliente:</label>
+    <input type="text" id="cliente" th:field="*{cliente}" />
+
+    <h3>Detalles de Productos</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="detalle, iterStat : ${orden.detalles}">
+            <td>
+                <select th:field="*{detalles[__${iterStat.index}__].producto.id}">
+                    <option th:each="producto : ${productos}" th:value="${producto.id}" th:text="${producto.nombre}"></option>
+                </select>
+            </td>
+            <td>
+                <input type="number" th:field="*{detalles[__${iterStat.index}__].cantidad}" />
+            </td>
+            <td>
+                <input type="number" th:field="*{detalles[__${iterStat.index}__].precio}" />
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <button type="submit">Guardar Cambios</button>
+</form>
+<a href="/ordenes">Volver al Dashboard</a>
+</body>
+</html>

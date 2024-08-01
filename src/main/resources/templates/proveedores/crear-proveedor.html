@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nuevo Proveedor</title>
+    <!-- <link rel="stylesheet" href="/styles.css" /> -->
+</head>
+<body>
+<h1>Nueva Proveedor</h1>
+<form th:action="@{/proveedores}" th:object="${proveedor}" method="post">
+
+    <label for="nombreProveedor">Fecha:</label>
+    <input type="text" id="nombreProveedor" th:field="*{nombreProveedor}" />
+
+    <button type="submit">Crear Orden</button>
+</form>
+<a href="/ordenes">Volver al Dashboard</a>
+</body>
+</html>

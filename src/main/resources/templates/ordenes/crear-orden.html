@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nueva Orden</title>
+    <!-- <link rel="stylesheet" href="/styles.css" /> -->
+</head>
+<body>
+<h1>Nueva Orden</h1>
+<form th:action="@{/ordenes}" th:object="${orden}" method="post">
+
+    <label for="fecha">Fecha:</label>
+    <input type="date" id="fecha" th:field="*{fecha}" />
+
+    <label for="cliente">Cliente:</label>
+    <input type="text" id="cliente" th:field="*{cliente}" />
+
+    <h3>Detalles de Productos</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ordenProducto, iterStat : ${orden.ordenesProductos}">
+            <td th:text="${ordenProducto.producto.id}"></td>
+            <td>
+                <input type="number" th:field="*{ordenesProductos[__${iterStat.index}__].cantidad}" />
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button type="submit">Crear Orden</button>
+</form>
+<a href="/ordenes">Volver al Dashboard</a>
+</body>
+</html>

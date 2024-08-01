@@ -29,23 +29,21 @@ public class ProveedorController {
     // Maneja las solicitudes de Thymeleaf
     @GetMapping
     public String listarProveedores(Model model) {
-        List<Proveedor> proveedores = proveedorService.obtenerTodosLosProveedores();
-        model.addAttribute("proveedores", proveedores);
-        return "mantenedor-proveedores";
+        model.addAttribute("proveedores", proveedorService.obtenerTodosLosProveedores());
+        return "proveedores/mantenedor-proveedores";
     }
 
     @GetMapping("/{id}")
-    public String verProveedor(@PathVariable("id") Long id, Model model) {
+    public String verProveedor(@PathVariable Long id, Model model) {
         Proveedor proveedor = proveedorService.obtenerProveedorPorId(id);
         model.addAttribute("proveedor", proveedor);
-        return "ver-proveedor";
+        return "proveedores/ver-proveedor";
     }
 
     @GetMapping("/nuevo")
-    public String nuevoProveedor(Model model) {
-        Proveedor proveedor = new Proveedor();
-        model.addAttribute("proveedor", proveedor);
-        return "editar-proveedor";
+    public String mostrarFormularioNuevoProveedor(Model model) {
+        model.addAttribute("proveedor", new Proveedor());
+        return "proveedores/editar-proveedor";
     }
 
     @PostMapping
@@ -55,21 +53,20 @@ public class ProveedorController {
     }
 
     @GetMapping("/{id}/editar")
-    public String editarProveedor(@PathVariable("id") Long id, Model model) {
+    public String mostrarFormularioEditarProveedor(@PathVariable Long id, Model model) {
         Proveedor proveedor = proveedorService.obtenerProveedorPorId(id);
         model.addAttribute("proveedor", proveedor);
-        return "editar-proveedor";
+        return "proveedores/editar-proveedor";
     }
 
-    @PostMapping("/{id}")
-    public String actualizarProveedor(@PathVariable("id") Long id, @ModelAttribute Proveedor proveedor) {
-        proveedor.setId(id);
-        proveedorService.guardarProveedor(proveedor);
+    @PutMapping("/{id}")
+    public String actualizarProveedor(@PathVariable Long id, @ModelAttribute Proveedor proveedor) {
+        proveedorService.actualizarProveedor(id, proveedor);
         return "redirect:/proveedores";
     }
 
-    @PostMapping("/{id}/eliminar")
-    public String eliminarProveedor(@PathVariable("id") Long id) {
+    @DeleteMapping("/{id}/eliminar")
+    public String eliminarProveedor(@PathVariable Long id) {
         proveedorService.eliminarProveedor(id);
         return "redirect:/proveedores";
     }

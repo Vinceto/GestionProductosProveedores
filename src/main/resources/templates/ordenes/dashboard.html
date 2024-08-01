@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="es-Es">
 <head>
     <title>Dashboard de Órdenes</title>
-    <link rel="stylesheet" href="/styles.css" />
+    <!-- <link rel="stylesheet" href="/styles.css" /> -->
 </head>
 <body>
 <h1>Dashboard de Órdenes</h1>
@@ -23,7 +23,10 @@
         <td>
             <a th:href="@{/ordenes/{id}(id=${orden.id})}">Ver</a>
             <a th:href="@{/ordenes/{id}/editar(id=${orden.id})}">Modificar</a>
-            <a th:href="@{/ordenes/{id}/eliminar(id=${orden.id})}" onclick="return confirm('¿Estás seguro de que quieres eliminar esta orden?')">Eliminar</a>
+            <form th:action="@{/ordenes/{id}/eliminar(id=${orden.id})}" method="post" style="display:inline;" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta orden?')">
+                <input type="hidden" name="_method" value="delete" />
+                <button type="submit" style="background:none; border:none; color:blue; cursor:pointer; text-decoration:underline; padding:0;">Eliminar</button>
+            </form>
         </td>
     </tr>
     </tbody>

@@ -1,6 +1,5 @@
 package com.ejercicios.gestionproductosproveedores.controller;
 import com.ejercicios.gestionproductosproveedores.entity.Orden;
-import com.ejercicios.gestionproductosproveedores.entity.Producto;
 import com.ejercicios.gestionproductosproveedores.exception.DuplicateResourceException;
 import com.ejercicios.gestionproductosproveedores.exception.ResourceNotFoundException;
 import com.ejercicios.gestionproductosproveedores.service.OrdenService;
@@ -13,7 +12,6 @@ import org.springframework.ui.Model;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/ordenes")
@@ -25,23 +23,21 @@ public class OrdenController {
     // Maneja las solicitudes de Thymeleaf
     @GetMapping
     public String listarOrdenes(Model model) {
-        List<Orden> ordenes = ordenService.obtenerTodasLasOrdenes();
-        model.addAttribute("ordenes", ordenes);
-        return "dashboard";
+        model.addAttribute("ordenes", ordenService.obtenerTodasLasOrdenes());
+        return "ordenes/dashboard";
     }
 
     @GetMapping("/{id}")
-    public String verOrden(@PathVariable("id") Long id, Model model) {
+    public String verOrden(@PathVariable Long id, Model model) {
         Orden orden = ordenService.obtenerOrdenPorId(id);
         model.addAttribute("orden", orden);
-        return "ver-orden";
+        return "ordenes/ver-orden";
     }
 
     @GetMapping("/nueva")
-    public String nuevaOrden(Model model) {
-        Orden orden = new Orden();
-        model.addAttribute("orden", orden);
-        return "editar-orden";
+    public String mostrarFormularioNuevaOrden(Model model) {
+        model.addAttribute("orden", new Orden());
+        return "ordenes/crear-orden";
     }
 
     @PostMapping
@@ -51,24 +47,20 @@ public class OrdenController {
     }
 
     @GetMapping("/{id}/editar")
-    public String editarOrden(@PathVariable("id") Long id, Model model) {
+    public String mostrarFormularioEditarOrden(@PathVariable Long id, Model model) {
         Orden orden = ordenService.obtenerOrdenPorId(id);
         model.addAttribute("orden", orden);
-        // Asumimos que también se necesitan los productos para el formulario
-        List<Producto> productos = ordenService.obtenerTodosLosProductos();
-        model.addAttribute("productos", productos);
-        return "editar-orden";
+        return "ordenes/editar-orden";
     }
 
-    @PostMapping("/{id}")
-    public String actualizarOrden(@PathVariable("id") Long id, @ModelAttribute Orden orden) {
-        orden.setId(id);
-        ordenService.guardarOrden(orden);
+    @PutMapping("/{id}")
+    public String actualizarOrden(@PathVariable Long id, @ModelAttribute Orden orden) {
+        ordenService.actualizarOrden(id, orden);
         return "redirect:/ordenes";
     }
 
-    @PostMapping("/{id}/eliminar")
-    public String eliminarOrden(@PathVariable("id") Long id) {
+    @DeleteMapping("/{id}/eliminar")
+    public String eliminarOrden(@PathVariable Long id) {
         ordenService.eliminarOrden(id);
         return "redirect:/ordenes";
     }

@@ -1,6 +1,7 @@
 package com.ejercicios.gestionproductosproveedores.service;
 import com.ejercicios.gestionproductosproveedores.entity.Orden;
 import com.ejercicios.gestionproductosproveedores.entity.Producto;
+import com.ejercicios.gestionproductosproveedores.entity.Proveedor;
 import com.ejercicios.gestionproductosproveedores.exception.ResourceNotFoundException;
 import com.ejercicios.gestionproductosproveedores.repository.OrdenRepository;
 import com.ejercicios.gestionproductosproveedores.repository.ProductoRepository;
@@ -41,5 +42,16 @@ public class OrdenService {
 
     public List<Producto> obtenerTodosLosProductos() {
         return productoRepository.findAll();
+    }
+
+    public Orden actualizarOrden(Long id, Orden ordenActualizado) {
+        Orden ordenExistente = ordenRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Orden no encontrado con ID: " + id));
+
+        ordenExistente.setCliente(ordenActualizado.getCliente());
+        ordenExistente.setFecha(ordenActualizado.getFecha());
+        ordenExistente.setOrdenesProductos(ordenActualizado.getOrdenesProductos());
+
+        return ordenRepository.save(ordenExistente);
     }
 }

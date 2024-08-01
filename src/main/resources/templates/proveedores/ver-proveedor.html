@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Ver Proveedor</title>
-    <!--    <link rel="stylesheet" href="/styles.css" />-->
 </head>
 <body>
 <h1>Detalles del Proveedor</h1>
@@ -26,11 +25,8 @@
         </tbody>
     </table>
 </div>
-<a href="/proveedores">Volver</a>
+<a href="/proveedores">Volver al Mantenedor de Proveedores</a>
 <a th:href="@{/proveedores/{id}/editar(id=${proveedor.id})}">Modificar Proveedor</a>
-
-<form th:action="@{/proveedores/{id}/eliminar(id=${proveedor.id})}" method="post" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este proveedor?');">
-    <button type="submit">Eliminar Proveedor</button>
-</form>
+<a th:href="@{/proveedores/{id}/eliminar(id=${proveedor.id})}" onclick="return confirm('¿Estás seguro de que quieres eliminar este proveedor?')">Eliminar Proveedor</a>
 </body>
 </html>

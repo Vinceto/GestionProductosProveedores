@@ -16,14 +16,12 @@
         <tr>
             <th>Producto</th>
             <th>Cantidad</th>
-            <th>Precio</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="detalle : ${orden.ordenesProductos}">
-            <td th:text="${detalle.producto.nombre}"></td>
+            <td th:text="${detalle.producto.nombreProducto}"></td>
             <td th:text="${detalle.cantidad}"></td>
-            <td th:text="${detalle.precio}"></td>
         </tr>
         </tbody>
     </table>

@@ -5,13 +5,9 @@ import com.ejercicios.gestionproductosproveedores.exception.ResourceNotFoundExce
 import com.ejercicios.gestionproductosproveedores.repository.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ProveedorService {
@@ -43,5 +39,15 @@ public class ProveedorService {
             throw new ResourceNotFoundException("Proveedor no encontrado con ID: " + id);
         }
         proveedorRepository.deleteById(id);
+    }
+
+    public Proveedor actualizarProveedor(Long id, Proveedor proveedorActualizado) {
+        Proveedor proveedorExistente = proveedorRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Proveedor no encontrado con ID: " + id));
+
+        proveedorExistente.setNombreProveedor(proveedorActualizado.getNombreProveedor());
+        proveedorExistente.setProductos(proveedorActualizado.getProductos());
+
+        return proveedorRepository.save(proveedorExistente);
     }
 }

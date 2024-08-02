@@ -1,5 +1,8 @@
 package com.ejercicios.gestionproductosproveedores.controller;
 import com.ejercicios.gestionproductosproveedores.entity.Orden;
+import com.ejercicios.gestionproductosproveedores.bootstrap5.services.FormService;
+import com.ejercicios.gestionproductosproveedores.bootstrap5.entity.Form;
+import com.ejercicios.gestionproductosproveedores.bootstrap5.entity.FormElement;
 import com.ejercicios.gestionproductosproveedores.exception.DuplicateResourceException;
 import com.ejercicios.gestionproductosproveedores.exception.ResourceNotFoundException;
 import com.ejercicios.gestionproductosproveedores.service.OrdenService;
@@ -20,9 +23,23 @@ public class OrdenController {
     @Autowired
     private OrdenService ordenService;
 
+    @Autowired
+    private FormService formService;
+
     // Maneja las solicitudes de Thymeleaf
     @GetMapping
     public String listarOrdenes(Model model) {
+        // ID del formulario que deseas cargar
+        Long formId = 1L; // Reemplaza con el ID real de tu formulario
+        Form form = formService.getForm(formId);
+        if (form != null) {
+            List<FormElement> elements = formService.getFormElements(form);
+            model.addAttribute("form", form);
+            model.addAttribute("elements", elements);
+        } else {
+            model.addAttribute("error", "Formulario no encontrado");
+        }
+
         model.addAttribute("ordenes", ordenService.obtenerTodasLasOrdenes());
         return "ordenes/dashboard";
     }

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="select (listaObjetos, textoPorDefecto, claseCss, esRequerido, estaDeshabilitado)">
+    <select th:class="${claseCss}" th:attr="aria-label=${textoPorDefecto}"
+            th:required="${esRequerido}"
+            th:disabled="${estaDeshabilitado}">
+        <option th:text="${textoPorDefecto}" th:value=0></option>
+        <option th:each="objeto : ${listaObjetos}"
+                th:value="${objeto.id}"
+                th:text="${objeto.cantidad}">
+        </option>
+    </select>
+</div>
+</body>
+</html>

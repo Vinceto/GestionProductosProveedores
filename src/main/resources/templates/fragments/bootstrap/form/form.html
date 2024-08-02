@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="dynamicForm">
+    <form th:object="${form}" th:action="@{/form/submit}" method="post">
+        <div class="row">
+            <div th:each="element : ${elements}" class="mb-3 col-md-${12 / ${form.columns}}">
+                <div th:if="${element.type == 'text' || element.type == 'email' || element.type == 'password'}">
+                    <label th:for="${element.name}" class="form-label" th:text="${element.label}">Label</label>
+                    <input th:type="${element.type}" class="form-control" th:id="${element.name}" th:placeholder="${element.placeholder}" th:required="${element.required}">
+                </div>
+                <div th:if="${element.type == 'textarea'}">
+                    <label th:for="${element.name}" class="form-label" th:text="${element.label}">Label</label>
+                    <textarea class="form-control" th:id="${element.name}" th:placeholder="${element.placeholder}" th:required="${element.required}"></textarea>
+                </div>
+                <!-- Agrega más tipos de elementos aquí -->
+                <div th:if="${#strings.isEmpty(element.type)}" class="alert alert-danger">Elemento no configurado correctamente</div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+</body>
+</html>

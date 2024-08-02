@@ -1,0 +1,17 @@
+<!--Select-->
+<div class="container mt-5">
+    <h2>Ejemplo de Select con Fragmento Thymeleaf</h2>
+    <div th:insert="~{fragments/bootstrap/form/select :: select (${orden.ordenesProductos}, 'Selecciona un producto', 'form-select form-select-lg', true, false)}"></div>
+</div>
+
+<!--Input Básico-->
+<div th:replace="fragments/input :: input('text', 'username', 'Username', false, false, 'Enter username', null, null, null, null, 'custom-class')"></div>
+
+<!--Input Group con Prefijo-->
+<div th:replace="fragments/input-group :: inputGroup('@', null, ${#arrays.asList({'type':'text', 'id':'username', 'placeholder':'Username'})})"></div>
+
+<!--Checkbox-->
+<div th:replace="fragments/check-radio :: checkRadio('checkbox', 'agree', 'Agree to terms', false, 'custom-class')"></div>
+
+<!--Radio-->
+<div th:replace="fragments/check-radio :: checkRadio('radio', 'option1', 'Option 1', false, 'custom-class')"></div>

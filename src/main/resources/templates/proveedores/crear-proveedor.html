@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Nuevo Proveedor</title>
-    <!-- <link rel="stylesheet" href="/styles.css" /> -->
-</head>
+<head th:insert="~{fragments/head :: head('Nuevo Proveedor')}"></head>
 <body>
-<h1>Nueva Proveedor</h1>
-<form th:action="@{/proveedores}" th:object="${proveedor}" method="post">
+    <div th:insert="~{fragments/navbar :: navbar}"></div>
+    <div th:class="container">
+        <h1>Nueva Proveedor</h1>
+        <form th:action="@{/proveedores}" th:object="${proveedor}" method="post">
 
-    <label for="nombreProveedor">Fecha:</label>
-    <input type="text" id="nombreProveedor" th:field="*{nombreProveedor}" />
+            <label class="form-label" for="nombreProveedor">Fecha:</label>
+            <input class="form-control" aria-describedby="nombreProveedor" type="text" id="nombreProveedor" th:field="*{nombreProveedor}" />
 
-    <button type="submit">Crear Orden</button>
-</form>
-<a href="/ordenes">Volver al Dashboard</a>
+            <button type="submit" class="btn btn-success">Crear Orden</button>
+        </form>
+        <a href="/ordenes" class="btn btn-secondary">Volver al Dashboard</a>
+    </div>
+    <div th:insert="~{fragments/scripts :: scripts}"></div>
 </body>
 </html>

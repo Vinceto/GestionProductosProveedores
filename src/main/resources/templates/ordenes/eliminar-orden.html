@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Eliminar Orden</title>
-    <link rel="stylesheet" href="/styles.css" />
-</head>
+<head th:insert="~{fragments/head :: head('Eliminar Orden')}"></head>
 <body>
-<h1>Eliminar Orden</h1>
-<p>¿Estás seguro de que quieres eliminar la orden ID <span th:text="${orden.id}"></span>?</p>
-<form th:action="@{/ordenes/{id}/eliminar(id=${orden.id})}" method="post">
-    <input type="hidden" name="_method" value="delete"/>
-    <button type="submit">Eliminar</button>
-</form>
-<a href="/ordenes">Volver al Dashboard</a>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+    <div th:class="container">
+    <h1>Eliminar Orden</h1>
+    <p>¿Estás seguro de que quieres eliminar la orden ID <span th:text="${orden.id}"></span>?</p>
+    <form th:action="@{/ordenes/{id}/eliminar(id=${orden.id})}" method="post">
+        <input type="hidden" name="_method" value="delete"/>
+        <button type="submit" class="btn btn-danger" class="btn btn-danger">Eliminar</button>
+    </form>
+    <a href="/ordenes" class="btn btn-secondary">Volver al Dashboard</a>
+    </div>
+</div>
+<div th:insert="~{fragments/scripts :: scripts}"></div>
 </body>
 </html>

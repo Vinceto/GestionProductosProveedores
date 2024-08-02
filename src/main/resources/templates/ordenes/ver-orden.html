@@ -1,33 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Ver Orden</title>
-    <link rel="stylesheet" href="/styles.css" />
-</head>
+<head th:insert="~{fragments/head :: head('Ver Orden')}"></head>
 <body>
-<h1>Detalles de la Orden</h1>
-<div>
-    <h2>Orden ID: <span th:text="${orden.id}"></span></h2>
-    <p>Fecha: <span th:text="${orden.fecha}"></span></p>
-    <p>Cliente: <span th:text="${orden.cliente}"></span></p>
-    <h3>Detalles de Productos</h3>
-    <table>
-        <thead>
-        <tr>
-            <th>Producto</th>
-            <th>Cantidad</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="detalle : ${orden.ordenesProductos}">
-            <td th:text="${detalle.producto.nombreProducto}"></td>
-            <td th:text="${detalle.cantidad}"></td>
-        </tr>
-        </tbody>
-    </table>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+    <div th:class="container">
+    <h1>Detalles de la Orden</h1>
+    <div>
+        <h2>Orden ID: <span th:text="${orden.id}"></span></h2>
+        <p>Fecha: <span th:text="${orden.fecha}"></span></p>
+        <p>Cliente: <span th:text="${orden.cliente}"></span></p>
+        <h3>Detalles de Productos</h3>
+        <table class="table table-info">
+            <thead>
+            <tr>
+                <th th:scope="col">Producto</th>
+                <th th:scope="col">Cantidad</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="detalle : ${orden.ordenesProductos}">
+                <td th:text="${detalle.producto.nombreProducto}" th:scope="row"></td>
+                <td th:text="${detalle.cantidad}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a href="/ordenes" class="btn btn-secondary">Volver al Dashboard</a>
+    <a th:href="@{/ordenes/{id}/editar(id=${orden.id})}" class="btn btn-warning">Modificar Orden</a>
+    <a th:href="@{/ordenes/{id}/eliminar(id=${orden.id})}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar esta orden?')">Eliminar Orden</a>
+    </div>
 </div>
-<a href="/ordenes">Volver al Dashboard</a>
-<a th:href="@{/ordenes/{id}/editar(id=${orden.id})}">Modificar Orden</a>
-<a th:href="@{/ordenes/{id}/eliminar(id=${orden.id})}" onclick="return confirm('¿Estás seguro de que quieres eliminar esta orden?')">Eliminar Orden</a>
+<div th:insert="~{fragments/scripts :: scripts}"></div>
 </body>
 </html>

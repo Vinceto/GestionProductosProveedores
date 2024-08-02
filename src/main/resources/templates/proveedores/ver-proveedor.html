@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Ver Proveedor</title>
-</head>
+<head th:insert="~{fragments/head :: head('Ver Proveedor')}"></head>
 <body>
-<h1>Detalles del Proveedor</h1>
-<div>
-    <h2>ID: <span th:text="${proveedor.id}"></span></h2>
-    <p>Nombre: <span th:text="${proveedor.nombreProveedor}"></span></p>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+    <div th:class="container">
+    <h1>Detalles del Proveedor</h1>
+    <div>
+        <h2>ID: <span th:text="${proveedor.id}"></span></h2>
+        <p>Nombre: <span th:text="${proveedor.nombreProveedor}"></span></p>
 
-    <h3>Productos asociados</h3>
-    <table>
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>Producto</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="producto : ${proveedor.productos}">
-            <td th:text="${producto.id}"></td>
-            <td th:text="${producto.nombreProducto}"></td>
-        </tr>
-        </tbody>
-    </table>
+        <h3>Productos asociados</h3>
+        <table class="table table-info">
+            <thead>
+            <tr>
+                <th th:scope="col">ID</th>
+                <th th:scope="col">Producto</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="producto : ${proveedor.productos}">
+                <td th:text="${producto.id}" th:scope="row"></td>
+                <td th:text="${producto.nombreProducto}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <a href="/proveedores" class="btn btn-secondary">Volver al Mantenedor de Proveedores</a>
+    <a th:href="@{/proveedores/{id}/editar(id=${proveedor.id})}" class="btn btn-warning">Modificar Proveedor</a>
+    <a th:href="@{/proveedores/{id}/eliminar(id=${proveedor.id})}" class="btn btn-dangery" onclick="return confirm('¿Estás seguro de que quieres eliminar este proveedor?')">Eliminar Proveedor</a>
+    </div>
 </div>
-<a href="/proveedores">Volver al Mantenedor de Proveedores</a>
-<a th:href="@{/proveedores/{id}/editar(id=${proveedor.id})}">Modificar Proveedor</a>
-<a th:href="@{/proveedores/{id}/eliminar(id=${proveedor.id})}" onclick="return confirm('¿Estás seguro de que quieres eliminar este proveedor?')">Eliminar Proveedor</a>
+<div th:insert="~{fragments/scripts :: scripts}"></div>
 </body>
 </html>

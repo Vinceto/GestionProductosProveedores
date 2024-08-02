@@ -1,39 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Nueva Orden</title>
-    <!-- <link rel="stylesheet" href="/styles.css" /> -->
-</head>
+<head th:insert="~{fragments/head :: head('Nueva Orden')}"></head>
 <body>
-<h1>Nueva Orden</h1>
-<form th:action="@{/ordenes}" th:object="${orden}" method="post">
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+    <div th:class="container">
+    <h1>Nueva Orden</h1>
+    <form th:action="@{/ordenes}" th:object="${orden}" method="post">
 
-    <label for="fecha">Fecha:</label>
-    <input type="date" id="fecha" th:field="*{fecha}" />
+        <label for="fecha" class="form-label">Fecha:</label>
+        <input class="form-control" aria-describedby="fecha" type="date" id="fecha" th:field="*{fecha}" />
 
-    <label for="cliente">Cliente:</label>
-    <input type="text" id="cliente" th:field="*{cliente}" />
+        <label for="cliente" class="form-label">Cliente:</label>
+        <input class="form-control" aria-describedby="cliente" type="text" id="cliente" th:field="*{cliente}" />
 
-    <h3>Detalles de Productos</h3>
-    <table>
-        <thead>
-        <tr>
-            <th>Producto</th>
-            <th>Cantidad</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="ordenProducto, iterStat : ${orden.ordenesProductos}">
-            <td th:text="${ordenProducto.producto.id}"></td>
-            <td>
-                <input type="number" th:field="*{ordenesProductos[__${iterStat.index}__].cantidad}" />
-            </td>
-        </tr>
-        </tbody>
-    </table>
+        <h3>Detalles de Productos</h3>
+        <table class="table table-info">
+            <thead>
+            <tr>
+                <th th:scope="col">Producto</th>
+                <th th:scope="col">Cantidad</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="ordenProducto, iterStat : ${orden.ordenesProductos}">
+                <td th:text="${ordenProducto.producto.id}" th:scope="row"></td>
+                <td>
+                    <input type="number" th:field="*{ordenesProductos[__${iterStat.index}__].cantidad}" />
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
-    <button type="submit">Crear Orden</button>
-</form>
-<a href="/ordenes">Volver al Dashboard</a>
+        <button type="submit" class="btn btn-success">Crear Orden</button>
+    </form>
+    <a href="/ordenes" class="btn btn-secondary">Volver al Dashboard</a>
+    </div>
+</div>
+<div th:insert="~{fragments/scripts :: scripts}"></div>
 </body>
 </html>

@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Modificar Proveedor</title>
-</head>
+<head th:insert="~{fragments/head :: head('Modificar Proveedor')}"></head>
 <body>
-<h1>Modificar Proveedor</h1>
-<form th:action="@{/proveedores/{id}(id=${proveedor.id})}" th:object="${proveedor}" method="post">
-    <input type="hidden" name="_method" value="put"/>
-    <label for="nombreProveedor">Nombre:</label>
-    <input type="text" id="nombreProveedor" th:field="*{nombreProveedor}" />
-    <button type="submit">Guardar Cambios</button>
-</form>
-<a href="/proveedores">Volver</a>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+    <div th:class="container">
+    <h1>Modificar Proveedor</h1>
+    <form th:action="@{/proveedores/{id}(id=${proveedor.id})}" th:object="${proveedor}" method="post">
+        <input type="hidden" name="_method" value="put"/>
+        <label class="form-label" for="nombreProveedor">Nombre:</label>
+        <input class="form-control" aria-describedby="nombreProveedor" type="text" id="nombreProveedor" th:field="*{nombreProveedor}" />
+        <button type="submit" class="btn btn-success">Guardar Cambios</button>
+    </form>
+    <a href="/proveedores" class="btn btn-secondary">Volver</a>
+    </div>
+</div>
+<div th:insert="~{fragments/scripts :: scripts}"></div>
 </body>
 </html>

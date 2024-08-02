@@ -1,37 +1,38 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es-Es">
-<head>
-    <title>Dashboard de Órdenes</title>
-    <!-- <link rel="stylesheet" href="/styles.css" /> -->
-</head>
+<html xmlns:th="http://www.thymeleaf.org" lang="es-ES">
+<head th:insert="~{fragments/head :: head('Dashboard de Órdenes')}"></head>
 <body>
-<h1>Dashboard de Órdenes</h1>
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Fecha</th>
-        <th>Cliente</th>
-        <th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="orden : ${ordenes}">
-        <td th:text="${orden.id}"></td>
-        <td th:text="${orden.fecha}"></td>
-        <td th:text="${orden.cliente}"></td>
-        <td>
-            <a th:href="@{/ordenes/{id}(id=${orden.id})}">Ver</a>
-            <a th:href="@{/ordenes/{id}/editar(id=${orden.id})}">Modificar</a>
-            <form th:action="@{/ordenes/{id}/eliminar(id=${orden.id})}" method="post" style="display:inline;" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta orden?')">
-                <input type="hidden" name="_method" value="delete" />
-                <button type="submit" style="background:none; border:none; color:blue; cursor:pointer; text-decoration:underline; padding:0;">Eliminar</button>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<a href="/ordenes/nueva">Crear Nueva Orden</a>
-<a href="/proveedores">Gestionar Proveedores</a>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+<div class="container">
+    <h1>Dashboard de Órdenes</h1>
+    <table class="table table-info table-hover">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Cliente</th>
+            <th scope="col">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="orden : ${ordenes}">
+            <td th:text="${orden.id}" scope="row"></td>
+            <td th:text="${orden.fecha}"></td>
+            <td th:text="${orden.cliente}"></td>
+            <td class="d-flex">
+                <a class="btn btn-outline-secondary d-inline-block me-2" th:href="@{/ordenes/{id}(id=${orden.id})}"><i class="bi bi-eye"></i> Ver</a>
+                <a class="btn btn-outline-warning d-inline-block me-2" th:href="@{/ordenes/{id}/editar(id=${orden.id})}"><i class="bi bi-save"></i> Modificar</a>
+                <form th:action="@{/ordenes/{id}/eliminar(id=${orden.id})}" method="post" class="d-inline-block" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta orden?')">
+                    <input type="hidden" name="_method" value="delete" />
+                    <button class="btn btn-outline-primary" aria-describedby="submit" type="submit" ><i class="bi bi-file-earmark-x"></i> Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="/ordenes/nueva" class="btn btn-primary">Crear Nueva Orden</a>
+    <a href="/proveedores" class="btn btn-info text-white">Gestionar Proveedores</a>
+</div>
+<div th:insert="~{fragments/scripts :: scripts}"></div>
 </body>
 </html>

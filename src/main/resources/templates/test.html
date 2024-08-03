@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/head :: head('Test de Componentes')}"></head>
+<body>
+<div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
+    <div class="row text-center w-100">
+        <h1 class="mb-4">Formulario Dinámico</h1>
+        <div class="col-12 col-md-4 mb-4">
+            <div th:insert="fragments/bootstrap/form/form :: dynamicForm"></div>
+        </div>
+        <div class="col-12 col-md-4 mb-4">
+            <div th:insert="fragments/bootstrap/form/sign_in :: signinForm"></div>
+        </div>
+        <div class="col-12 col-md-4 mb-4">
+            <div th:insert="fragments/bootstrap/form/sign_out :: signoutForm"></div>
+        </div>
+    </div>
+</div>
+<div th:insert="~{fragments/scripts :: scripts}"></div>
+</body>
+</html>

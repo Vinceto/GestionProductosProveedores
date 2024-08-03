@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<div th:fragment="dynamicForm">
+<div th:fragment="dynamicForm" class="container bg-tertiary px-5 py-5">
     <form th:object="${form}" th:action="@{/form/submit}" method="post">
         <div class="row">
             <div th:each="element : ${elements}" class="mb-3 col-md-${12 / ${form.columns}}">

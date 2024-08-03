@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="signoutForm" class="container bg-warning px-5 py-5">
+    <h3>sign out</h3>
+    <form th:action="@{/signout}" method="post">
+        <button class="btn btn-primary w-100 py-2" th:text="${form.elements[0].placeholder}">Sign out</button>
+    </form>
+</div>
+</body>
+</html>

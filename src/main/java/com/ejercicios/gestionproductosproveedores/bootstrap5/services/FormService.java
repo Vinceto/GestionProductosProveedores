@@ -20,6 +20,6 @@ public class FormService {
     }
 
     public List<FormElement> getFormElements(Form form) {
-        return formElementRepository.findByFormOrderByOrderAsc(form);
+        return formElementRepository.findByFormOrderByOrdenAsc(form);
     }
 }

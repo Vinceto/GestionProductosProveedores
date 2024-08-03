@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="signinForm" class="container bg-secondary px-5 py-5">
+    <main class="form-signin w-100 m-auto">
+        <form th:object="${form}" th:action="@{/signin}" method="post">
+            <img class="mb-4" src="/docs/{{< param docs_version >}}/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+            <div th:each="element : ${elements}">
+                <div th:if="${element.type == 'email'}" class="form-floating mb-3">
+                    <input th:type="${element.type}" class="form-control" th:id="${element.name}" th:placeholder="${element.placeholder}" th:required="${element.required}">
+                    <label th:for="${element.name}" th:text="${element.label}">Label</label>
+                </div>
+                <div th:if="${element.type == 'password'}" class="form-floating mb-3">
+                    <input th:type="${element.type}" class="form-control" th:id="${element.name}" th:placeholder="${element.placeholder}" th:required="${element.required}">
+                    <label th:for="${element.name}" th:text="${element.label}">Label</label>
+                </div>
+                <div th:if="${element.type == 'checkbox'}" class="form-check text-start my-3">
+                    <input class="form-check-input" th:type="${element.type}" th:value="remember-me" th:id="${element.name}">
+                    <label class="form-check-label" th:for="${element.name}" th:text="${element.label}">Remember me</label>
+                </div>
+            </div>
+            <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+            <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–{{< year >}}</p>
+        </form>
+    </main>
+</div>
+</body>
+</html>

@@ -29,16 +29,34 @@ public class OrdenController {
     // Maneja las solicitudes de Thymeleaf
     @GetMapping
     public String listarOrdenes(Model model) {
-        // ID del formulario que deseas cargar
-        Long formId = 1L; // Reemplaza con el ID real de tu formulario
-        Form form = formService.getForm(formId);
-        if (form != null) {
+        // form base
+        Form form = formService.getForm(1L);
+        // signIn form
+        Form signInForm = formService.getForm(2L);
+        // signOut form
+        Form signOutForm = formService.getForm(3L);
+
+        model.addAttribute("elements", formService.getFormElements(form));
+        if (form != null && signInForm != null) {
             List<FormElement> elements = formService.getFormElements(form);
             model.addAttribute("form", form);
             model.addAttribute("elements", elements);
+
+            List<FormElement> signInElements = formService.getFormElements(signInForm);
+            model.addAttribute("signInForm", signInForm);
+            model.addAttribute("signInElements", signInElements);
+
+            List<FormElement> signOutElements = formService.getFormElements(signOutForm);
+            model.addAttribute("signOutForm", signOutForm);
+            model.addAttribute("signOutElements", signOutElements);
+
         } else {
             model.addAttribute("error", "Formulario no encontrado");
         }
+
+
+
+
 
         model.addAttribute("ordenes", ordenService.obtenerTodasLasOrdenes());
         return "ordenes/dashboard";
